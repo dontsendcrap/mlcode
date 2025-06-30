@@ -1,0 +1,46 @@
+from sklearn.tree import DecisionTreeClassifier, plot_tree
+from sklearn.metrics import accuracy_score
+import matplotlib.pyplot as plt
+import numpy as np
+
+# Step 1: Input data
+n = int(input("How many samples? "))
+f = int(input("How many features per sample? "))
+
+X, y = [], []
+print("\nEnter data as space-separated values (features + label):")
+for i in range(n):
+    row = list(map(float, input(f"Sample {i+1}: ").split()))
+    X.append(row[:f])
+    y.append(int(row[f]))
+
+X = np.array(X)
+y = np.array(y)
+
+# Step 2: Model settings
+criterion = input("Criterion (gini or entropy): ")
+depth = int(input("Max depth of tree: "))
+
+# Step 3: Train the model
+model = DecisionTreeClassifier(criterion=criterion, max_depth=depth)
+model.fit(X, y)
+
+# Step 4: Show training accuracy
+preds = model.predict(X)
+print("Training accuracy:", round(accuracy_score(y, preds), 2))
+
+# Step 5: Predict new sample
+new_data = list(map(float, input(f"\nEnter {f} features to predict class: ").split()))
+if len(new_data) == f:
+    prediction = model.predict([new_data])[0]
+    print("Predicted class:", prediction)
+else:
+    print("❌ Incorrect number of features.")
+
+# Step 6: Plot tree
+plt.figure(figsize=(10, 6))
+plot_tree(model, filled=True, rounded=True,
+          feature_names=[f"F{i+1}" for i in range(f)],
+          class_names=[str(c) for c in np.unique(y)])
+plt.title("Decision Tree")
+plt.show()
