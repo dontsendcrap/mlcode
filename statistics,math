@@ -1,0 +1,38 @@
+import statistics
+import math
+import numpy as np
+from scipy import stats
+data = list(map(float, input("Enter numbers separated by space: ").split()))
+print("\nUsing statistics module")
+try:
+    print("Mean:", statistics.mean(data))
+    print("Median:", statistics.median(data))
+    print("Mode:", statistics.mode(data))
+    print("Variance:", statistics.variance(data))
+    print("Standard Deviation:", statistics.stdev(data))
+except statistics.StatisticsError as e:
+    print("Statistics Error:", e)
+print("\nUsing math module (for the first number only)")
+if len(data) > 0:
+    num = int(data[0])
+    print(f"Selected number: {num}")
+    print("Factorial (if valid):", math.factorial(num) if num >= 0 else "N/A")
+    print("Square Root:", math.sqrt(abs(num)))
+    print("GCD with 10:", math.gcd(num, 10))
+else:
+    print("No number available for math operations.")
+print("\n Using NumPy ")
+np_data = np.array(data)
+print("Numpy Array:", np_data)
+print("Mean:", np.mean(np_data))
+print("Median:", np.median(np_data))
+print("Standard Deviation:", np.std(np_data))
+print("Variance:", np.var(np_data))
+print("Max:", np.max(np_data))
+print("Min:", np.min(np_data))
+print("Sorted:", np.sort(np_data))
+print("\n Using SciPy ")
+print("Skewness:", stats.skew(np_data))
+print("Kurtosis:", stats.kurtosis(np_data))
+mode_result = stats.mode(np_data, keepdims=True)
+print("Mode:", mode_result.mode[0], "Count:", mode_result.count[0])
