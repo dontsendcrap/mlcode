@@ -1,0 +1,25 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+data = {	
+    'House_ID': [1, 2, 3, 4, 5],
+    'Area (sqft)': [1400, 1600, 1700, 1875, 1100],
+    'Bedrooms': [3, 4, 3, 4, 2],
+    'Age (years)': [10, 5, 7, 2, 20],
+    'Price (in lakhs)': [70, 85, 78, 95, 55]
+}
+df = pd.DataFrame(data)
+print("DataFrame")
+print(df)
+print("data frame information")
+print(df.info())
+plt.plot(df['Area (sqft)'], df['Price (in lakhs)'],'2--b')
+plt.title('Price vs Area')
+plt.xlabel('Area (sqft)')
+plt.ylabel('Price (in lakhs)')
+plt.grid(True)
+plt.show()
+plt.bar(df['Bedrooms'], df['Price (in lakhs)'], color='skyblue')
+plt.title('Price based on Number of Bedrooms')
+plt.xlabel('Bedrooms')
+plt.ylabel('Price (in lakhs)')
+plt.show()
