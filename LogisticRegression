@@ -1,0 +1,46 @@
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import accuracy_score
+import matplotlib.pyplot as plt
+import numpy as np
+
+# Step 1: Get dynamic input
+n_samples = int(input("Enter number of data points: "))
+n_features = int(input("Enter number of features (at least 2 for plotting): "))
+n_classes = int(input("Enter number of classes: "))
+
+# Step 2: Collect data
+X = []
+y = []
+print(f"Enter {n_features} features followed by class label (0 to {n_classes - 1}):")
+for i in range(n_samples):
+    values = input(f"Data point {i+1}: ").split()
+    if len(values) != n_features + 1:
+        print(f"Expected {n_features + 1} values, got {len(values)}. Exiting.")
+        exit()
+    X.append([float(x) for x in values[:-1]])
+    y.append(int(values[-1]))
+
+X = np.array(X)
+y = np.array(y)
+
+# Step 3: Train logistic regression model (multi-class)
+model = LogisticRegression(multi_class='multinomial', solver='lbfgs', max_iter=200)
+model.fit(X, y)
+y_pred = model.predict(X)
+
+# Step 4: Accuracy
+acc = accuracy_score(y, y_pred)
+print("Predicted Labels:", y_pred)
+print("Accuracy:", acc)
+
+# Step 5: Plot using first 2 features
+if n_features >= 2:
+    plt.figure(figsize=(8, 6))
+    scatter = plt.scatter(X[:, 0], X[:, 1], c=y, cmap='tab10', edgecolors='k')
+    plt.xlabel("Feature 1")
+    plt.ylabel("Feature 2")
+    plt.title("Multi-class Logistic Regression (2D View)")
+    plt.grid(True)
+    plt.show()
+else:
+    print("🔹 Cannot plot: At least 2 features needed for 2D plot.")
